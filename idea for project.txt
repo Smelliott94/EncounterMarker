@@ -1,0 +1,7 @@
+idea for project (has to be a daemon)
+add stream markers when a new log starts
+    https://dev.twitch.tv/docs/api/reference/#create-stream-marker
+
+Scan latest log file for CHALLENGE_MODE_START every 5s, If detected add a stream marker
+
+should not look further than 20s into the past for CHALLENGE_MODE_START
