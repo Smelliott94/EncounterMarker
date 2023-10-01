@@ -18,7 +18,7 @@ TWITCH_CHANNEL_NAME = os.getenv("TWITCH_CHANNEL_NAME")
 redirect_uri = "http://localhost:8080/"
 
 # Construct the authorization URL
-auth_url = f"https://id.twitch.tv/oauth2/authorize?client_id={TWITCH_CLIENT_ID}&redirect_uri={redirect_uri}&response_type=code&scope=user:edit:broadcast"
+auth_url = f"https://id.twitch.tv/oauth2/authorize?client_id={TWITCH_CLIENT_ID}&redirect_uri={redirect_uri}&response_type=code&scope=user:edit:broadcast moderator:manage:announcements"
 
 # Open the authorization URL in the default web browser
 webbrowser.open(auth_url)
@@ -39,7 +39,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 "client_secret": TWITCH_CLIENT_SECRET,
                 "code": authorization_code,
                 "grant_type": "authorization_code",
-                "redirect_uri": redirect_uri,
+                "redirect_uri": redirect_uri
             }
             
             # Make the POST request to exchange the code for an access token

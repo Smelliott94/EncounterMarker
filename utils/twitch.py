@@ -2,6 +2,7 @@ import requests
 import logging
 import math
 import utils.affixes
+import json
 
 logger = logging.getLogger()
 
@@ -27,7 +28,7 @@ def _form_marker_description(data):
         affixes = utils.affixes.get_affixes(affix_ids)
         return f'{zone} {key_level} | {affixes}'
 
-def request_stream_marker(client_id, channel_id, access_token, log_data, dry_run=False):
+def request_stream_marker(client_id, user_id, access_token, log_data, dry_run=False):
     # Construct the POST request headers
     headers = {
         "Client-ID": client_id,
@@ -36,23 +37,54 @@ def request_stream_marker(client_id, channel_id, access_token, log_data, dry_run
     }
 
     # Define the data for setting the stream marker
+    description = _form_marker_description(log_data)
     data = {
-        "user_id": channel_id,
-        "description": _form_marker_description(log_data)  # Optional: You can provide a description for the marker
+        "user_id": user_id,
+        "description": description  # Optional: You can provide a description for the marker
     }
     if not dry_run:
         # Make the POST request to set the stream marker
         marker_url = "https://api.twitch.tv/helix/streams/markers"
+        logging.critical(json.dumps(headers))
+        logging.critical(json.dumps(data))
         response = requests.post(marker_url, headers=headers, json=data)
 
         # Check the response
         if response.status_code == 200:
             logger.info("Stream marker set successfully.")
             response_data = response.json()
-            logger.info(f"Marker ID: {response_data['data']['id']}")
+            logger.info(f"Marker ID: {json.dumps(response_data)}")
+            return description
         else:
             logger.info(f"Failed to set stream marker. Status code: {response.status_code}")
             logger.info(response.text)
     else:
         logging.warning('DRY RUN MODE')
         logging.warning(data)
+
+def request_chat_announcement(client_id, user_id, access_token, message):
+    # Construct the POST request headers
+    headers = {
+        "Client-ID": client_id,
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    params = {
+        'broadcaster_id': user_id,
+        'moderator_id': user_id
+    }
+    data = {
+        'message': message
+    }
+    url = "https://api.twitch.tv/helix/chat/announcements"
+    response = requests.post(url, headers=headers, json=data, params=params)
+
+    # Check the response
+    if response.status_code == 204:
+        logger.info("Announcement sent successfully.")
+        logger.info(response.text)
+    else:
+        logger.info(f"Failed to send Announcement. Status code: {response.status_code}")
+        logger.info(response.text)
+
+

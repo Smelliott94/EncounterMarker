@@ -4,12 +4,15 @@ from pathlib import Path
 import logging
 import os
 from utils.combatlog import parse_log_line
-from utils.twitch import request_stream_marker
+from utils.twitch import request_stream_marker, request_chat_announcement
 import utils.setup_logging
+import dotenv
 
+dotenv_file = dotenv.find_dotenv()
+dotenv.load_dotenv(dotenv_file)
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
-TWITCH_CHANNEL_NAME = os.getenv("TWITCH_CHANNEL_NAME")
+TWITCH_USER_ID = os.getenv("TWITCH_USER_ID")
 TWITCH_ACCESS_TOKEN = os.getenv("TWITCH_ACCESS_TOKEN")
 WOW_ROOT_DIR = os.getenv("WOW_ROOT_DIR", "C:\Program Files (x86)\World of Warcraft\_retail_")
 
@@ -66,9 +69,9 @@ while True:
                     log_data = parse_log_line(matched_line)
                     logger.warning(log_data)
                     if log_data['report']:
-                        request_stream_marker(
+                        marker_description = request_stream_marker(
                             TWITCH_CLIENT_ID,
-                            TWITCH_CHANNEL_NAME,
+                            TWITCH_USER_ID,
                             TWITCH_ACCESS_TOKEN,
                             log_data
                         )
