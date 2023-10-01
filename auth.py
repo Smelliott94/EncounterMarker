@@ -12,7 +12,6 @@ dotenv_file = dotenv.find_dotenv()
 dotenv.load_dotenv(dotenv_file)
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
-TWITCH_CHANNEL_NAME = os.getenv("TWITCH_CHANNEL_NAME")
 
 # Your Twitch application credentials and redirect URI
 redirect_uri = "http://localhost:8080/"
