@@ -1,5 +1,5 @@
 # EncounterMarker
-Creates twitch markers when you enter an encounter or Mythic+ dungeon to make your life a bit easier when creating highlights.
+Creates a [Twitch stream marker](https://dev.twitch.tv/docs/api/markers/) when you enter an encounter or Mythic+ dungeon to make your life a bit easier when creating highlights.
 Currently only Mythic+ dungeons are supported.
 Raid encounters TBD.
 
