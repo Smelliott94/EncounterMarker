@@ -20,5 +20,3 @@ WOW_ROOT_DIR='C:\Program Files (x86)\World of Warcraft\_retail_' # < Default val
 
 ## Usage
 1. Run `python ./main.py` (recommended from a terminal to see logged actions, exit with CTRL+C)
-
-After that you should just need to run
