@@ -76,7 +76,7 @@ while True:
                             log_data
                         )
                 
-                time.sleep(5)
+                time.sleep(1)
                 new_log_file = get_most_recent_file(log_dir, log_file_prefix)
                 if log_file.name != str(new_log_file):
                     logger.warning("More recently modified log file detected")
