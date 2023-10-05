@@ -78,15 +78,17 @@ def validate_user():
             else:
                 logger.critical("API error")
                 logger.critical(response_data)
-
-    os.environ["APP_CLIENT_CODE"] = valid_app_code
-    os.environ["TWITCH_USER_ID"] = valid_user_id
-    
+   
     dotenv.set_key(dotenv_file, "APP_CLIENT_CODE", valid_app_code)
     dotenv.set_key(dotenv_file, "TWITCH_USER_ID", valid_user_id)
+    os.environ["APP_CLIENT_CODE"] = valid_app_code
+    os.environ["TWITCH_USER_ID"] = valid_user_id
     logger.info(f"User {valid_user_id} validated")
 
 validate_user()
+# Reload env vars post-validation
+APP_CLIENT_CODE = os.getenv("APP_CLIENT_CODE", "")
+TWITCH_USER_ID = os.getenv("TWITCH_USER_ID", "")
 # Open the log file in read mode with buffering set to 1
 while True:
     
@@ -104,7 +106,7 @@ while True:
                     log_data = parse_log_line(matched_line)
                     logger.warning(log_data)
                     if log_data['report']:
-                        marker_description = utils.api.request_stream_marker(TWITCH_USER_ID, log_data)
+                        utils.api.request_stream_marker(TWITCH_USER_ID, log_data)
                 
                 time.sleep(1)
                 new_log_file = get_most_recent_file(log_dir, log_file_prefix)

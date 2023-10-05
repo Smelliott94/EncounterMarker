@@ -27,11 +27,10 @@ def request_stream_marker(user_id, log_data):
     if response.status_code == 200:
         logger.info("Request success")
         response_data = response.json()
-        logger.info(f"Marker ID: {json.dumps(response_data)}")
-        return description
+        logger.info(f"Response: {json.dumps(response_data)}")
     else:
-        logger.info(f"Failed to set stream marker. Status code: {response.status_code}")
-        logger.info(response.text)
+        logger.error(f"Failed to set stream marker. Status code: {response.status_code}")
+        logger.error(response.text)
 
 def request_auth_link():
     url = f"{API_ROOT}/auth_link"
