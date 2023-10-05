@@ -25,7 +25,10 @@ AFFIXES = {
     129: 'Infernal',
     130: 'Encrypted',
     131: 'Shrouded',
-    132: 'Thundering'
+    132: 'Thundering',
+    134: 'Entangling',
+    135: 'afflicted',
+    136: 'incorporeal'
 }
 
 def get_affixes(codes):

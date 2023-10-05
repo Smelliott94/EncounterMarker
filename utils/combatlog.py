@@ -1,4 +1,28 @@
 import re
+import math
+import utils.affixes
+
+def format_timer(time_in_ms):
+    time_in_s = time_in_ms / 1000
+    time_in_mins = time_in_s / 60
+    return f'{math.floor(time_in_mins)}:{math.floor(time_in_s % 60)}'
+
+def form_marker_description(data):
+    zone = data.get('zone_name', '')
+    key_level = data.get('key_level', '')
+    success = data.get('success', '')
+    player_score  = data.get('player_score', '')
+    timer = data.get('timer', '')
+    affix_ids = data.get('affix_ids', '')
+    
+    if timer and isinstance(success, int):
+        formatted_timer = format_timer(timer)
+        timed_or_depleted = 'timed' if success == 1 else 'depleted'
+        return f'Key end | {timed_or_depleted} {formatted_timer} | {player_score}io'
+    
+    if zone:
+        affixes = utils.affixes.get_affixes(affix_ids)
+        return f'{zone} {key_level} | {affixes}'
 
 def parse_log_line(log_line):
     if 'CHALLENGE_MODE_START' in log_line:

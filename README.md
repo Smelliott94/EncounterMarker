@@ -8,21 +8,11 @@ Raid encounters TBD.
 * [Combat log docs](https://wowpedia.fandom.com/wiki/COMBAT_LOG_EVENT)
 
 ## Setup
-1. Register an application at https://dev.twitch.tv/console/apps (2FA required)
-1. On the Manage Application page. Set an oauth Redirect URL to http://localhost:8080/. Note the Client ID and Client Secret.
-1. create a `.env` file in the project root folder with the following constants
-```bash
-TWITCH_CLIENT_ID=your_client_id
-TWITCH_CLIENT_SECRET=your_client_secret
-TWITCH_USER_ID=your_user_id # A number corresponding to your twitch channel. Can be found using the twitch API or a website like https://streamscharts.com/tools/convert-username
-WOW_ROOT_DIR='C:\Program Files (x86)\World of Warcraft\_retail_' # < Default value, not required if your WoW install is there
-```
-1. `git clone https://github.com/Smelliott94/EncounterMarker.git`
+1. [Allow the application on Twitch](https://id.twitch.tv/oauth2/authorize?client_id=8188onbz5c834x47p07lfopa4kp0uv&redirect_uri=https://encountermarkerserver.onrender.com/auth&response_type=code&scope=user:edit:broadcast)
+1. Note the private client code (this is used to ensure you only make stream markers for yourself)
 1. Go to the project root directory (`EncounterMarker`) in your terminal
-1. Download dependencies : `python -m pip install -r requirements.txt`
-2. (Windows) Run `install.py` which should create `encounterMarker.bat`, a batch script that simply executes `auth.py` and `main.py` in sequence and leaves the terminal open so you can see when logs/encounters are found.
+1. Download dependencies : `python -m pip install -r requirements.txt` built and tested on Python 3.8.3
 
 ## Usage
-1. Run `encounterMarker.bat`, making sure to authorize your app on the first run.
-
-> `encounterMarker.bat` Should find the absolute paths to the scripts, so you can move it anywhere you'd like. Note you'll have to re-generate the script if you move the project folder.
+1. Run `python .\encounterMarker.py`, and enter the private client code when prompted. This will be saved for future use.
+   1. If you want to authenticate another twitch account. clear the contents of `.env`, allow the application for the new account, and use the new code when provided.
