@@ -12,7 +12,8 @@ Raid encounters TBD.
 1. Note the private client code (this is used to ensure you only make stream markers for yourself)
 1. Clone this repository: `git clone https://github.com/Smelliott94/EncounterMarker.git`
 1. Go to the project root directory (`EncounterMarker`) in your terminal
-1. Download dependencies : `python -m pip install -r requirements.txt` built and tested on Python 3.8.3
+   1. 
+2. Download dependencies : `python -m pip install -r requirements.txt` built and tested on Python 3.8.3
 
 ## Usage
 1. Run `python .\encounterMarker.py`, and enter the private client code when prompted. This will be saved for future use.
