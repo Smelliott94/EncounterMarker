@@ -6,49 +6,31 @@ from utils.combatlog import parse_log_line
 import utils.api
 import utils.setup_logging
 import dotenv
+import utils.process
 
 dotenv_file = dotenv.find_dotenv()
 dotenv.load_dotenv(dotenv_file)
-WOW_ROOT_DIR = os.getenv("WOW_ROOT_DIR", "C:\Program Files (x86)\World of Warcraft\_retail_")
+WOW_ROOT_DIR = os.getenv("WOW_ROOT_DIR_OVERRIDE", "")
 APP_CLIENT_CODE = os.getenv("APP_CLIENT_CODE", "")
 TWITCH_USER_ID = os.getenv("TWITCH_USER_ID", "")
 logger = logging.getLogger()
 
-# Function to check if specific text is present in the log file
-def check_log_for_text(log_file, target_text):
-    
-    for line in log_file:
-        for word in target_text:
-            if word in line:
-                return line
-    return False
-
-# Function to get the most recent file
-def get_most_recent_file(directory, file_prefix):
-    try:
-        # List all files in the directory
-        files = [file for file in directory.iterdir() if file.name.startswith(file_prefix)]
-        
-        # Sort the matching files by modification time (most recent first)
-        files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
-
-        if files:
-            most_recent_file = files[0]
-            return most_recent_file
-        else:
-            return None
-    except FileNotFoundError:
-        print(f"Directory not found: {directory}")
-        return None
-
-wow_root_dir = Path(WOW_ROOT_DIR)
-log_dir = wow_root_dir / "Logs"
-log_file_prefix = "WoWCombatLog"
+wow_window = utils.process.getWowWindow()
+log_dir = Path(utils.process.getLogFolderLocation(wow_window, WOW_ROOT_DIR))
+log_file = os.path.join(log_dir, utils.process.getMostRecentLogFile(log_dir))
 
 target_text = [
     "CHALLENGE_MODE_START",
     "CHALLENGE_MODE_END"
 ]
+
+# Function to check if specific text is present in the log file
+def check_log_for_text(log_file, target_text):
+    for line in log_file:
+        for word in target_text:
+            if word in line:
+                return line
+    return False
 
 def validate_user():
     valid_user_id = None
@@ -88,9 +70,8 @@ def validate_user():
 validate_user()
 # Open the log file in read mode with buffering set to 1
 while True:
-    
     # Main loop, checks for newest file
-    log_file = get_most_recent_file(log_dir, log_file_prefix)
+    log_file = os.path.join(log_dir, utils.process.getMostRecentLogFile(log_dir))
     logger.info(f'Polling {log_file}')
     
     # Line-buffer the log file and continue where you left off after sleeping
@@ -106,7 +87,7 @@ while True:
                         marker_description = utils.api.request_stream_marker(TWITCH_USER_ID, log_data)
                 
                 time.sleep(1)
-                new_log_file = get_most_recent_file(log_dir, log_file_prefix)
+                new_log_file = os.path.join(log_dir, utils.process.getMostRecentLogFile(log_dir))
                 if log_file.name != str(new_log_file):
                     logger.warning("More recently modified log file detected")
                     break
