@@ -1,9 +1,7 @@
 # EncounterMarker
-Creates a [Twitch stream marker](https://dev.twitch.tv/docs/api/markers/) when you enter an encounter or Mythic+ dungeon to make your life a bit easier when creating highlights.
+Polls your log file and creates a [Twitch stream marker](https://dev.twitch.tv/docs/api/markers/) when you enter an encounter or Mythic+ dungeon to make your life a bit easier when creating highlights.
 Currently only Mythic+ dungeons are supported.
 Raid encounters TBD.
-
-**Note:** You'll have to register your own application with Twitch since the program polls the log file on your local computer.
 
 * [Combat log docs](https://wowpedia.fandom.com/wiki/COMBAT_LOG_EVENT)
 
