@@ -1,7 +1,7 @@
 # EncounterMarker
 Polls your log file and creates a [Twitch stream marker](https://dev.twitch.tv/docs/api/markers/) when you enter an encounter or Mythic+ dungeon to make your life a bit easier when creating highlights.
-Currently only Mythic+ dungeons are supported.
-Raid encounters TBD.
+Currently adds markers when mythic+ dungeons begin or end, and when a boss encounter ends
+
 
 * [Combat log docs](https://wowpedia.fandom.com/wiki/COMBAT_LOG_EVENT)
 * Backend repo: [EncounterMarker Server](https://github.com/Smelliott94/EncounterMarker_server)
@@ -17,3 +17,15 @@ Raid encounters TBD.
 ## Usage
 1. Run `python .\encounterMarker.py`, and enter the private client code when prompted. This will be saved for future use.
    1. If you want to authenticate another twitch account. clear the contents of `.env`, allow the application for the new account, and use the new code when provided.
+
+
+## Marker formats
+
+### Mythic+ start
+`{zone} {key_level} | {affixes}`
+
+### Mythic+ end
+`Key end | {timed_or_depleted} {formatted_timer} | {player_score}io`
+
+### Boss Encounter end
+`{local time} | {difficulty} {boss} | {kill_or_wipe}`
