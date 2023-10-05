@@ -38,7 +38,6 @@ def request_auth_link():
     response = requests.get(url)
     return response
 
-
 def validate_app_user(code):
     headers = {'X-Client-Code': code}
     url = F"{API_ROOT}/validate_user"

@@ -47,7 +47,8 @@ log_file_prefix = "WoWCombatLog"
 
 target_text = [
     "CHALLENGE_MODE_START",
-    "CHALLENGE_MODE_END"
+    "CHALLENGE_MODE_END",
+    "ENCOUNTER_END"
 ]
 
 def validate_user():
