@@ -112,22 +112,26 @@ def parse_log_line(log_line):
         encounter_name = get_encounter_name(int(encounter_details[0]))
         timer = int(encounter_details[-1])
 
-        # Ignore fights shorter than 10s (10k ms)
-        if timer < 10000 and not encounter_details[3]:
+        try:
+            # Ignore fights shorter than 10s (10k ms)
+            if (timer < 10000 and not encounter_details[3]):
+                return {
+                    'type': 'ENCOUNTER_END',
+                    'report': False
+                }
+            
+            return {
+                'type': 'ENCOUNTER_END',
+                'encounter_id': int(encounter_details[0]),
+                'encounter_name': encounter_name,
+                'difficulty': raid_diff_map[int(encounter_details[1])],
+                'success': int(encounter_details[3]),
+                'timer': timer,
+                'report': True
+            }
+        except KeyError as e:
+            # ignore non-raid encounter ends
             return {
                 'type': 'ENCOUNTER_END',
                 'report': False
             }
-        
-        return {
-            'type': 'ENCOUNTER_END',
-            'encounter_id': int(encounter_details[0]),
-            'encounter_name': encounter_name,
-            'difficulty': raid_diff_map[int(encounter_details[1])],
-            'success': int(encounter_details[3]),
-            'timer': timer,
-            'report': True
-        }
-
-
-
